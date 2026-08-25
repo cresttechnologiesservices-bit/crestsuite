@@ -1,0 +1,32 @@
+-- CreateTable
+CREATE TABLE "WorkspaceSettings" (
+    "id" TEXT NOT NULL DEFAULT 'workspace',
+    "name" TEXT NOT NULL DEFAULT 'My Workspace',
+    "logoDataUrl" TEXT,
+    "timesheetEnabled" BOOLEAN NOT NULL DEFAULT true,
+    "timeTrackerEnabled" BOOLEAN NOT NULL DEFAULT true,
+    "kioskEnabled" BOOLEAN NOT NULL DEFAULT false,
+    "defaultBillable" BOOLEAN NOT NULL DEFAULT true,
+    "defaultProjectPublic" BOOLEAN NOT NULL DEFAULT true,
+    "organizeTimeBy" TEXT NOT NULL DEFAULT 'client-project-task',
+    "durationFormat" TEXT NOT NULL DEFAULT 'compact',
+    "weekStart" TEXT NOT NULL DEFAULT 'Monday',
+    "workingDays" TEXT[] DEFAULT ARRAY['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']::TEXT[],
+    "dailyWorkCapacity" DECIMAL(5,2) NOT NULL DEFAULT 8,
+    "overtimePeriod" TEXT NOT NULL DEFAULT 'weekly',
+    "billableRate" DECIMAL(10,2),
+    "currency" TEXT NOT NULL DEFAULT 'USD',
+    "numberFormat" TEXT NOT NULL DEFAULT '1,000.00',
+    "currencyFormat" TEXT NOT NULL DEFAULT 'symbol-before',
+    "permissions" JSONB NOT NULL DEFAULT '{}',
+    "alerts" JSONB NOT NULL DEFAULT '{}',
+    "accounts" JSONB NOT NULL DEFAULT '{}',
+    "authentication" JSONB NOT NULL DEFAULT '{}',
+    "customFields" JSONB NOT NULL DEFAULT '[]',
+    "integrations" JSONB NOT NULL DEFAULT '{}',
+    "addons" JSONB NOT NULL DEFAULT '{}',
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "updatedById" TEXT,
+
+    CONSTRAINT "WorkspaceSettings_pkey" PRIMARY KEY ("id")
+);

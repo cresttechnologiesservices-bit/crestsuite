@@ -1,0 +1,373 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MANAGER
+  MEMBER
+}
+
+enum ProjectStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+enum TimesheetStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id                 String    @id @default(cuid())
+  email              String    @unique
+  passwordHash       String?
+  name               String
+  avatarUrl          String?
+  role               Role      @default(MEMBER)
+  status             String    @default("active") // active | inactive | invited
+  timezone           String    @default("UTC")
+  dateFormat         String    @default("DD/MM/YYYY")
+  timeFormat         String    @default("24")
+  theme              String    @default("light")
+  language           String    @default("en")
+  dayStart           String    @default("09:00")
+  billableRate       Decimal?  @db.Decimal(10, 2)
+  emailPrefs         Json      @default("{}")
+  uiPrefs            Json      @default("{}") // dashboard grouping/scope, report column visibility, …
+  invitedAt          DateTime?
+  deactivatedAt      DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  otps               Otp[]
+  timeEntries        TimeEntry[]
+  projects           ProjectMember[]
+  groupMembers       GroupMember[]
+  sessions           Session[]
+  timesheets         Timesheet[]
+  timeOff            TimeOff[]
+  timesheetTemplates TimesheetTemplate[]
+  calendarPrefs      CalendarPreference?
+  externalCalendars  ExternalCalendarIntegration[]
+  externalEvents     ExternalCalendarEvent[]
+  notifications      Notification[]
+  turnstileAttempts  TurnstileAttempt[]
+}
+
+/// Workspace-wide configuration (single row, id = "workspace").
+/// Admin-only to change; readable by every signed-in user because the app
+/// needs the workspace name/logo and the feature toggles to render.
+model WorkspaceSettings {
+  id          String  @id @default("workspace")
+  // General
+  name        String  @default("My Workspace")
+  logoDataUrl String? @db.Text
+  timesheetEnabled   Boolean @default(true)
+  timeTrackerEnabled Boolean @default(true)
+  kioskEnabled       Boolean @default(false)
+  defaultBillable    Boolean @default(true)
+  defaultProjectPublic Boolean @default(true)
+  // Time & attendance
+  organizeTimeBy    String   @default("client-project-task")
+  durationFormat    String   @default("compact")
+  weekStart         String   @default("Monday")
+  workingDays       String[] @default(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"])
+  dailyWorkCapacity Decimal  @default(8) @db.Decimal(5, 2)
+  overtimePeriod    String   @default("weekly")
+  // Billing & currency
+  billableRate   Decimal? @db.Decimal(10, 2)
+  currency       String   @default("USD")
+  numberFormat   String   @default("1,000.00")
+  currencyFormat String   @default("symbol-before")
+  // Tab-scoped settings kept as JSON so new options don't need a migration
+  permissions    Json @default("{}")
+  alerts         Json @default("{}")
+  accounts       Json @default("{}")
+  authentication Json @default("{}")
+  customFields   Json @default("[]")
+  integrations   Json @default("{}")
+  addons         Json @default("{}")
+  updatedAt   DateTime @updatedAt
+  updatedById String?
+}
+
+/// Admin-defined custom fields (Workspace Settings → Custom Fields).
+/// Definitions live here rather than in a settings blob so values can be
+/// joined, filtered and exported.
+model CustomField {
+  id             String   @id @default(cuid())
+  name           String
+  type           String   // text | number | link | switch | select | multiselect
+  entity         String   // timeEntry | project | user
+  required       Boolean  @default(false)
+  active         Boolean  @default(true)
+  visibility     String   @default("everyone") // everyone | managers | admins
+  editPermission String   @default("everyone") // everyone | managers | admins
+  allowedValues  Json     @default("[]")
+  defaultValue   Json?
+  placeholder    String?
+  position       Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  values         CustomFieldValue[]
+
+  @@unique([entity, name])
+  @@index([entity, active])
+}
+
+/// One stored value of a custom field for one record.
+model CustomFieldValue {
+  id         String      @id @default(cuid())
+  fieldId    String
+  field      CustomField @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  entityType String      // timeEntry | project | user
+  entityId   String
+  value      Json?
+  updatedAt  DateTime    @updatedAt
+
+  @@unique([fieldId, entityId])
+  @@index([entityType, entityId])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Otp {
+  id        String   @id @default(cuid())
+  email     String
+  codeHash  String
+  expiresAt DateTime
+  attempts  Int      @default(0)
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?
+}
+
+model Client {
+  id        String    @id @default(cuid())
+  name      String
+  address   String?
+  currency  String    @default("USD")
+  status    String    @default("active")
+  createdAt DateTime  @default(now())
+  projects  Project[]
+
+  @@unique([name])
+}
+
+model Project {
+  id              String        @id @default(cuid())
+  name            String
+  clientId        String?
+  client          Client?       @relation(fields: [clientId], references: [id])
+  color           String        @default("#4f46e5")
+  visibility      String        @default("private")
+  status          ProjectStatus @default(ACTIVE)
+  billableDefault Boolean       @default(false)
+  hourlyRate      Decimal?      @db.Decimal(10, 2)
+  estimateType    String        @default("none")
+  estimateValue   Decimal?      @db.Decimal(12, 2)
+  createdAt       DateTime      @default(now())
+  members         ProjectMember[]
+  tasks           Task[]
+  timeEntries     TimeEntry[]
+
+  @@unique([name])
+}
+
+model ProjectMember {
+  id           String   @id @default(cuid())
+  projectId    String
+  userId       String
+  billableRate Decimal? @db.Decimal(10, 2)
+  role         String?
+  project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+}
+
+model Task {
+  id          String      @id @default(cuid())
+  projectId   String
+  name        String
+  status      String      @default("active")
+  assignees   Json        @default("[]")
+  project     Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  timeEntries TimeEntry[]
+
+  @@unique([projectId, name])
+}
+
+model TimeEntry {
+  id          String    @id @default(cuid())
+  userId      String
+  projectId   String?
+  taskId      String?
+  description String    @default("")
+  phase       String?
+  start       DateTime
+  end         DateTime?
+  billable    Boolean   @default(false)
+  tags        String[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project     Project?  @relation(fields: [projectId], references: [id])
+  task        Task?     @relation(fields: [taskId], references: [id])
+
+  @@index([userId, start])
+}
+
+model Timesheet {
+  id          String          @id @default(cuid())
+  userId      String
+  weekStart   DateTime        @db.Date
+  status      TimesheetStatus @default(DRAFT)
+  submittedAt DateTime?
+  approvedBy  String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, weekStart])
+}
+
+model TimeOff {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  startDate DateTime @db.Date
+  endDate   DateTime @db.Date
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, startDate, endDate])
+}
+
+model TimesheetTemplate {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  projects  Json
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Group {
+  id      String        @id @default(cuid())
+  name    String        @unique
+  members GroupMember[]
+}
+
+model GroupMember {
+  id      String @id @default(cuid())
+  groupId String
+  userId  String
+  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, userId])
+}
+
+model SharedReport {
+  id             String   @id @default(cuid())
+  name           String
+  slug           String   @unique
+  ownerId        String
+  visibility     String   @default("public")
+  alwaysThisWeek Boolean  @default(false)
+  lockDates      Boolean  @default(false)
+  filtersJson    Json
+  createdAt      DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  target    String?
+  metadata  Json     @default("{}")
+  createdAt DateTime @default(now())
+}
+
+model CalendarPreference {
+  id                  String  @id @default(cuid())
+  userId              String  @unique
+  viewMode            String  @default("week")
+  zoomLevel           Int     @default(60)
+  showWorkingDaysOnly Boolean @default(false)
+  user                User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ExternalCalendarIntegration {
+  id           String    @id @default(cuid())
+  userId       String
+  provider     String
+  accessToken  String // Encrypted at rest
+  refreshToken String? // Encrypted at rest
+  expiresAt    DateTime?
+  connectedAt  DateTime  @default(now())
+  lastSyncAt   DateTime?
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, provider])
+}
+
+model ExternalCalendarEvent {
+  id          String   @id @default(cuid())
+  userId      String
+  provider    String
+  externalId  String
+  title       String
+  description String?
+  start       DateTime
+  end         DateTime
+  allDay      Boolean  @default(false)
+  color       String?
+  syncedAt    DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, provider, externalId])
+  @@index([userId, start])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String // newsletter, onboarding, weekly_report, long_running_timer, scheduled_reports, approval, time_off, alerts, reminders, schedule, invoices
+  subject   String
+  body      String
+  sentAt    DateTime @default(now())
+  delivered Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, sentAt])
+}
+
+model TurnstileAttempt {
+  id        String   @id @default(cuid())
+  ip        String
+  email     String?
+  success   Boolean
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId    String?
+
+  @@index([ip, createdAt])
+}

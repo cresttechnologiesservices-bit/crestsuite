@@ -1,0 +1,13 @@
+{
+  "name": "qms-suite",
+  "version": "1.0.0",
+  "description": "Quality Management System for ISO 9001 / ISO 13485 / IATF 16949 / AS9100 / ISO 22163 compliance",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node lib/seed.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

@@ -1,0 +1,10 @@
+**/node_modules
+**/dist
+!apps/clockit/apps/web/dist
+**/.env
+apps/leavems/data/db.json
+apps/leavems/data/db.json.tmp
+apps/qms/data
+apps/clockit/claude
+*.docx
+.git

@@ -1,0 +1,15 @@
+{
+  "name": "leavems",
+  "version": "1.0.0",
+  "description": "CREST Leave Management System - PTO policy & holiday calendar compliant",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "seed": "node server/seed.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

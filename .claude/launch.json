@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "crestsuite-portal",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["portal/server.js"],
+      "port": 8080
+    },
+    {
+      "name": "clockit-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["-w", "apps/web", "run", "dev", "--prefix", "apps/clockit"],
+      "port": 5173
+    }
+  ]
+}

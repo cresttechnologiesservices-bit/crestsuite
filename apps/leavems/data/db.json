@@ -1,0 +1,353 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "hirkant@gmail.com",
+      "name": "Hirkant (Owner)",
+      "role": "admin",
+      "isOwner": true,
+      "managerId": null,
+      "joiningDate": "2020-01-01",
+      "passwordHash": "$2a$10$DbvIGwajlb7YqCHXlqzaB.r6ZphSCl4P9S6XhqVy0eILU10655ZG2",
+      "active": true
+    },
+    {
+      "id": 2,
+      "email": "raj@crest-technologies.com",
+      "name": "Raj",
+      "role": "admin",
+      "isOwner": false,
+      "managerId": 1,
+      "joiningDate": "2021-06-01",
+      "passwordHash": "$2a$10$J7zxLNRLNkREgNUfZXX2JeOibIaytmaaXuGljGFGyPFCTtPYrv9Ca",
+      "active": true
+    },
+    {
+      "id": 3,
+      "email": "prabha@crestaerospace.com",
+      "name": "Prabha",
+      "role": "admin",
+      "isOwner": false,
+      "managerId": 1,
+      "joiningDate": "2021-06-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 4,
+      "email": "ashwini.kumar@crestaerospace.com",
+      "name": "Ashwini Kumar",
+      "role": "admin",
+      "isOwner": false,
+      "managerId": 1,
+      "joiningDate": "2021-06-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 5,
+      "email": "mayurraju.shah@crestaerospace.com",
+      "name": "Mayurraju Shah",
+      "role": "admin",
+      "isOwner": false,
+      "managerId": 1,
+      "joiningDate": "2021-06-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 6,
+      "email": "pradnya.n@crestaerospace.com",
+      "name": "Pradnya N",
+      "role": "admin",
+      "isOwner": false,
+      "managerId": 1,
+      "joiningDate": "2021-06-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 7,
+      "email": "vishal.bhandary@crestaerospace.com",
+      "name": "Vishal Bhandary",
+      "role": "manager",
+      "isOwner": false,
+      "managerId": 2,
+      "joiningDate": "2022-03-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 8,
+      "email": "jayanthkumar.singh@crestaerospace.com",
+      "name": "Jayanthkumar Singh",
+      "role": "manager",
+      "isOwner": false,
+      "managerId": 2,
+      "joiningDate": "2022-03-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 9,
+      "email": "gundappa.chatla@crestaerospace.com",
+      "name": "Gundappa Chatla",
+      "role": "manager",
+      "isOwner": false,
+      "managerId": 2,
+      "joiningDate": "2022-03-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 10,
+      "email": "prajwal.kulkarni@crestaerospace.com",
+      "name": "Prajwal Kulkarni",
+      "role": "manager",
+      "isOwner": false,
+      "managerId": 2,
+      "joiningDate": "2022-03-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 11,
+      "email": "sooriyaprakash.m@crestaerospace.com",
+      "name": "Sooriyaprakash M",
+      "role": "manager",
+      "isOwner": false,
+      "managerId": 2,
+      "joiningDate": "2022-03-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 12,
+      "email": "amit.sharma@crestaerospace.com",
+      "name": "Amit Sharma",
+      "role": "employee",
+      "isOwner": false,
+      "managerId": 7,
+      "joiningDate": "2023-08-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 13,
+      "email": "neha.patil@crestaerospace.com",
+      "name": "Neha Patil",
+      "role": "employee",
+      "isOwner": false,
+      "managerId": 8,
+      "joiningDate": "2023-08-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 14,
+      "email": "rohan.desai@crestaerospace.com",
+      "name": "Rohan Desai",
+      "role": "employee",
+      "isOwner": false,
+      "managerId": 9,
+      "joiningDate": "2023-08-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 15,
+      "email": "kavya.iyer@crestaerospace.com",
+      "name": "Kavya Iyer",
+      "role": "employee",
+      "isOwner": false,
+      "managerId": 10,
+      "joiningDate": "2023-08-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 16,
+      "email": "arjun.rao@crestaerospace.com",
+      "name": "Arjun Rao",
+      "role": "employee",
+      "isOwner": false,
+      "managerId": 11,
+      "joiningDate": "2023-08-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 17,
+      "email": "sneha.kulkarni@crestaerospace.com",
+      "name": "Sneha Kulkarni",
+      "role": "employee",
+      "isOwner": false,
+      "managerId": 7,
+      "joiningDate": "2023-08-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 18,
+      "email": "vivek.menon@crestaerospace.com",
+      "name": "Vivek Menon",
+      "role": "employee",
+      "isOwner": false,
+      "managerId": 8,
+      "joiningDate": "2023-08-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 19,
+      "email": "divya.nair@crestaerospace.com",
+      "name": "Divya Nair",
+      "role": "employee",
+      "isOwner": false,
+      "managerId": 9,
+      "joiningDate": "2023-08-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 20,
+      "email": "karthik.reddy@crestaerospace.com",
+      "name": "Karthik Reddy",
+      "role": "employee",
+      "isOwner": false,
+      "managerId": 10,
+      "joiningDate": "2023-08-01",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    },
+    {
+      "id": 21,
+      "email": "pooja.hegde@crestaerospace.com",
+      "name": "Pooja Hegde",
+      "role": "employee",
+      "isOwner": false,
+      "managerId": 11,
+      "joiningDate": "2026-05-15",
+      "passwordHash": "$2a$10$1cUItBGI2CS47MjK2PdkE.yUb3qdBxfIQMFjss9PJfupFC7QeQLRS",
+      "active": true
+    }
+  ],
+  "holidays": [
+    {
+      "id": 22,
+      "year": 2026,
+      "date": "2026-01-01",
+      "name": "New Year's Day",
+      "type": "mandatory"
+    },
+    {
+      "id": 23,
+      "year": 2026,
+      "date": "2026-01-15",
+      "name": "Makara Sankranti / Pongal",
+      "type": "mandatory"
+    },
+    {
+      "id": 24,
+      "year": 2026,
+      "date": "2026-01-26",
+      "name": "Republic Day",
+      "type": "mandatory"
+    },
+    {
+      "id": 25,
+      "year": 2026,
+      "date": "2026-05-01",
+      "name": "May Day",
+      "type": "mandatory"
+    },
+    {
+      "id": 26,
+      "year": 2026,
+      "date": "2026-05-28",
+      "name": "Bakrid",
+      "type": "mandatory"
+    },
+    {
+      "id": 27,
+      "year": 2026,
+      "date": "2026-08-15",
+      "name": "Independence Day",
+      "type": "mandatory"
+    },
+    {
+      "id": 28,
+      "year": 2026,
+      "date": "2026-08-26",
+      "name": "Eid-Milad",
+      "type": "mandatory"
+    },
+    {
+      "id": 29,
+      "year": 2026,
+      "date": "2026-09-14",
+      "name": "Ganesh Chaturthi / Varasiddhi Vinayaka Vrata",
+      "type": "mandatory"
+    },
+    {
+      "id": 30,
+      "year": 2026,
+      "date": "2026-10-02",
+      "name": "Gandhi Jayanthi",
+      "type": "mandatory"
+    },
+    {
+      "id": 31,
+      "year": 2026,
+      "date": "2026-10-20",
+      "name": "Ayudha Puja, Dussehra",
+      "type": "mandatory"
+    },
+    {
+      "id": 32,
+      "year": 2026,
+      "date": "2026-11-10",
+      "name": "Bali Padyami / Deepavali",
+      "type": "mandatory"
+    },
+    {
+      "id": 33,
+      "year": 2026,
+      "date": "2026-03-04",
+      "name": "Holi",
+      "type": "optional"
+    },
+    {
+      "id": 34,
+      "year": 2026,
+      "date": "2026-03-19",
+      "name": "Ugadi",
+      "type": "optional"
+    },
+    {
+      "id": 35,
+      "year": 2026,
+      "date": "2026-04-03",
+      "name": "Good Friday",
+      "type": "optional"
+    },
+    {
+      "id": 36,
+      "year": 2026,
+      "date": "2026-12-25",
+      "name": "Christmas",
+      "type": "optional"
+    }
+  ],
+  "settings": {
+    "2026": {
+      "optionalCount": 2
+    }
+  },
+  "leaves": [],
+  "compoffs": [],
+  "optionalSelections": [],
+  "adjustments": [],
+  "notifications": [],
+  "nextId": 37
+}
