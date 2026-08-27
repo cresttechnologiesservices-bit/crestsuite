@@ -30,7 +30,8 @@ const qmsDb = require('../apps/qms/lib/db');
 const qmsAuth = require('../apps/qms/lib/auth');
 const qmsSeed = require('../apps/qms/lib/seed');
 
-const PORT = Number(process.env.PORTAL_PORT || 8080);
+// const PORT = Number(process.env.PORTAL_PORT || 8080);
+const PORT = Number(process.env.PORT || process.env.PORTAL_PORT || 8080);
 const PORTAL_SECRET = process.env.PORTAL_SECRET || 'crestsuite-portal-dev-secret-change-in-production';
 const LEAVEMS_JWT_SECRET = process.env.JWT_SECRET || 'leavems-dev-secret-change-in-production';
 const CLOCKIT_API = new URL(process.env.CLOCKIT_API_URL || 'http://127.0.0.1:3000');
