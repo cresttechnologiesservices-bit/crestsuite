@@ -6,6 +6,7 @@
   "workspaces": ["portal", "apps/leavems", "apps/qms"],
   "scripts": {
     "start": "node portal/server.js",
+    "dev": "node portal/server.js",
     "clockit:install": "cd apps/clockit && npm install",
     "clockit:db": "cd apps/clockit && docker compose up -d && npm run db:migrate && npm run db:seed",
     "clockit:api": "cd apps/clockit && npm run dev:api",
