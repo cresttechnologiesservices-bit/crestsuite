@@ -2,7 +2,8 @@
 # PostgreSQL/Redis/MailHog services from the root docker-compose.yml.
 FROM node:20-alpine
 # Prisma's query/schema engines need OpenSSL on Alpine
-RUN apk add --no-cache openssl libc6-compat
+# RUN apk add --no-cache openssl libc6-compat
+RUN apk add --no-cache openssl libc6-compat python3 make g++
 WORKDIR /clockit
 COPY package*.json ./
 COPY apps/api/package.json apps/api/
