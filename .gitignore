@@ -1,4 +1,7 @@
 node_modules/
 dist/
+.env
 .env.local
+apps/clockit/.env
+apps/clockit/apps/api/.env
 *.log
